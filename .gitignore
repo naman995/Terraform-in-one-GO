@@ -1,0 +1,13 @@
+terra-key-ec2
+terra-key-ec2.pub
+.terraform.tfstate
+.terraform.tfstate.backup
+.terraform
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+*.tfplan
+*.tfplan.*
+*.tfplan.json
