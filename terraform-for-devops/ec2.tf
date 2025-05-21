@@ -54,17 +54,25 @@ resource "aws_security_group" "my_security_group" {
 }
 # EC2 instance
 resource "aws_instance" "my_instance" {
+  # count = 2 # Number of instances to create
+
+  for_each = tomap({
+    micro = "t2.micro"
+    small = "t2.small"
+  })
   key_name        = aws_key_pair.deployer.key_name
   security_groups = [aws_security_group.my_security_group.name]
-  instance_type   = var.ec2_instance_type #"t2.micro"
-  ami             = var.ec2_ami_id        #"ami-04f167a56786e4b09"
-  user_data       = file("install_nginx.sh")
+  # instance_type   = var.ec2_instance_type #"t2.micro"
+  instance_type = each.value     #"t2.micro"
+  ami           = var.ec2_ami_id #"ami-04f167a56786e4b09"
+  user_data     = file("install_nginx.sh")
   root_block_device {
     volume_size = 15
     volume_type = "gp3"
 
   }
   tags = {
-    Name = "Terraform-automate"
+    Name = each.key
+    # Name = "Terraform-automate"
   }
 }
